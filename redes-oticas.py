@@ -60,6 +60,10 @@ for x, y in adjacency_list.items():
 edge_weights = dict(zip(combs, length))
 
 graph = Graph(adjacency_list, edge_weights)
-dijkstra = DijkstraSPF(graph, 1)
-print(dijkstra.get_path(4))
-print(dijkstra.get_distance(4))
+
+for i in range(1, 7):
+    for j in range(1,7):
+        print(f"({i},{j})")
+        dijkstra = DijkstraSPF(graph, i)
+        print(dijkstra.get_path(j))
+        print(dijkstra.get_distance(j))
