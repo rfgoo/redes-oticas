@@ -74,118 +74,42 @@ print(spf_list)
 tabelas.tabelas(spf_list, ["path", "km"])
 tabelas.tabelas(data.t1_traffic_matrix, [i for i in range(1, 7)], [i for i in range(1, 7)])
 
-# lista de lambdas: pos0 é o comp de onda, pos 1 é a lista de nós por onde passa, pos 2 é o contador de quantos nos passa
-wave_lens = [[0, [], 0]]
-tmp = [[0, []]]
 
-
-x = 0
-for i in spf_list:
-    if len(i[0]) == 2 and i[0] not in wave_lens[x][1]:
-        wave_lens[x][1].append(i[0])
-        tmp[x][1].append(i[0])
-        #print(wave_lens)
-        x = 0
-    else:
-        links_path = []
-        links_path_rev = []
-        for j in range(len(i[0]) - 1):
-            # print(i[0])
-            # print(i[0][j:j+2])
-            links_path.append(i[0][j:j + 2])
-            #links_path_rev = [b[::-1] for b in links_path]
-            print(links_path)
-            print(links_path_rev)
-
-        flag = True
-        flag_mais1 = True
-        for k in links_path:
-            if flag:
-                for l in range(len(wave_lens)):
-                    print(k)
-                    if k not in wave_lens[l][1] and flag_mais1:
-                        print("here", k[0])
-                        #wave_lens[x][1].append(i[0])
-                        flag = True
-                        pass
-                    else:
-                        if flag:
-                            x += 1
-                            flag_mais1 = False
-                        if len(wave_lens) == x:
-                            wave_lens.append([x,[],0])
-                            tmp.append([x, []])
-                            for link in links_path:
-                                # print(links_path)
-                                wave_lens[x][1].append(link)
-                            tmp[x][1].append(i[0])
-                            x = 0
-                            flag = False
-                            break
-        if flag:
-            for link in links_path:
-                # print(links_path)
-                wave_lens[x][1].append(link)
+def fisrt_fist():
+    # lista de lambdas: pos0 é o comp de onda, pos 1 é a lista de nós por onde passa, pos 2 é o contador de quantos nos passa
+    wave_lens = [[0, [], 0]]
+    tmp = [[0, []]]
+    x = 0
+    for i in spf_list:
+        if len(i[0]) == 2 and i[0] not in wave_lens[x][1]:
+            wave_lens[x][1].append(i[0])
             tmp[x][1].append(i[0])
             x = 0
-
-
-
-
-    """else:
-        links_path = []
-        links_path_rev = []
-        for j in range(len(i[0]) - 1):
-            # print(i[0])
-            # print(i[0][j:j+2])
-            links_path.append(i[0][j:j + 2])
-            links_path_rev = [b[::-1] for b in links_path]
-        print(links_path)
-        print(links_path_rev)
-        """
-    #elif len(i[0]) > 2:
-    """else:
-        links_path = []
-        links_path_rev = []
-        for j in range(len(i[0])-1):
-            #print(i[0])
-            #print(i[0][j:j+2])
-            links_path.append(i[0][j:j+2])
-            links_path_rev = [b[::-1] for b in links_path]
-        print(links_path_rev)
-        print(links_path)
-        while len(links_path) != 0:
-            print(links_path, len(links_path))
-            for var, var_rev in zip(links_path, links_path_rev):
-                print("oi")
-                print(var, var_rev)
-                print("oi")
+        else:
+            links_path = []
+            links_path_rev = []
+            for j in range(len(i[0]) - 1):
+                links_path.append(i[0][j:j + 2])
+                links_path_rev = [b[::-1] for b in links_path]
+            xizes = []
+            for k in zip(links_path, links_path_rev):
                 for l in range(len(wave_lens)):
-                    if var in wave_lens[l][1] or var_rev in wave_lens[l][1]:
+                    if k[0] in wave_lens[l][1] or k[1] in wave_lens[l][1]:
                         x += 1
-                        if len(wave_lens) == x:
-                           # print(len(wave_lens), x)
-                            wave_lens.append([x,[],0])
-                            for link in links_path:
-                                # print(links_path)
-                                wave_lens[x][1].append(link)
-                            x = 0
-                            links_path = []
-                            print(wave_lens)
-                            print("append")
-                        print("oi",x)
-                        break
-                    else:
-                        for link in links_path:
-                           # print(links_path)
-                            wave_lens[x][1].append(link)
+                xizes.append(x)
+                x = 0
+            if len(wave_lens) == max(xizes):
+                wave_lens.append([max(xizes), [], 0])
+                tmp.append([max(xizes), []])
+                for link in links_path:
+                    wave_lens[max(xizes)][1].append(link)
+                tmp[max(xizes)][1].append(i[0])
+            else:
+                for link in links_path:
+                    wave_lens[max(xizes)][1].append(link)
+                tmp[max(xizes)][1].append(i[0])
+    return tmp
 
-                        x = 0
-                        print("CHEGUEIIIII")
 
-                        links_path = []
-                        print(wave_lens)
-                        break
-"""
-for i in tmp:
+for i in fisrt_fist():
     print(i)
