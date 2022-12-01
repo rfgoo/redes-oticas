@@ -19,12 +19,14 @@ graph = Graph(data.t1_adjacency_list, edge_weights)
 
 # encontra os caminhos mais curtos para qq nos (não tem matriz de trafego)
 
+
 def get_paths(adjacency, graf, matrix=False):
     """
-    :return spf (list): uma lista com todos os caminhos e a sua distancia, ordenados por ordem crscente de distancia e numero de saltos
-    :param adjacency (dict): um dicionario com key: nó; value: lista com as suas ligações
-    :param graf (Objeto Graph): objeto graph do dijkstra
-    :param matrix (lista de listas): matrix de trafego, pode ser omitida caso nao exista
+    :param adjacency: (dict) um dicionario com key: nó; value: lista com as suas ligações
+    :param graf: (Objeto Graph) objeto graph do dijkstra
+    :param matrix: (lista de listas) matrix de trafego, pode ser omitida caso nao exista
+    :return spf (list): uma lista com todos os caminhos e a sua distancia,
+            ordenados por ordem crscente de distancia e numero de saltos
     """
 
     spf = []
