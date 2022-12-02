@@ -8,7 +8,7 @@ import tabelas
 
 # cria o dicionário para o dijkstra com base nos caminhos e nas ligações
 
-
+"""
 combs = []
 for x, y in data.t1_adjacency_list.items():
     for z in y:
@@ -27,7 +27,7 @@ for x, y in data.c239_adjacency_list.items():
 edge_weights = dict(zip(combs, data.c239_length))
 
 graph = Graph(data.c239_adjacency_list, edge_weights)
-"""
+
 # encontra os caminhos mais curtos para qq nos (não tem matriz de trafego)
 
 
@@ -74,8 +74,8 @@ def get_paths(adjacency, graf, matrix=False):
     return plh
 
 
-spf_list = get_paths(data.t1_adjacency_list, graph, data.t1_traffic_matrix)
-#spf_list = get_paths(data.c239_adjacency_list, graph)
+#spf_list = get_paths(data.t1_adjacency_list, graph, data.t1_traffic_matrix)
+spf_list = get_paths(data.c239_adjacency_list, graph)
 print(spf_list)
 tabelas.tabelas(spf_list, ["path", "km"])
 tabelas.tabelas(data.t1_traffic_matrix, [i for i in range(1, 7)], [i for i in range(1, 7)])
