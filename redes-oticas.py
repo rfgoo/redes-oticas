@@ -63,7 +63,7 @@ def get_paths(adjacency, graf, matrix=False):
     # remove as duplicadas pk esta lib de dijsktra é unidirecional precisamos de meter os dois caminhos ex. (1,2) e (2,1)
     # pode dar problemas se o dijkstra nao der o mesmo caminho para 25 e 52 (deve estar resolvido)
 
-    plh = [x for x in spf if x[1] != 0]
+    plh = [b for b in spf if b[1] != 0]
 
     for j in plh:
         s = j[0][0]
@@ -80,8 +80,9 @@ print(spf_list)
 tabelas.tabelas(spf_list, ["path", "km"])
 tabelas.tabelas(data.t1_traffic_matrix, [i for i in range(1, 7)], [i for i in range(1, 7)])
 
-def avalia(paths,links, links_rev):
-    if paths == []:
+
+def avalia(paths, links, links_rev):
+    if not paths:
         return 0
     for li in paths:
         if li in links:
@@ -89,6 +90,7 @@ def avalia(paths,links, links_rev):
         elif li in links_rev:
             return 1
     return 0
+
 
 def fisrt_fist():
     # lista de lambdas: pos0 é o comp de onda, pos 1 é a lista de nós por onde passa, pos 2 é o contador de quantos nos passa
@@ -107,7 +109,7 @@ def fisrt_fist():
             var = avalia(lamb[1], links_path, links_path_rev)
             if var == 0:
                 break
-            elif var!=0:
+            elif var != 0:
                 x += 1
 
         if len(wave_lens) == x:
@@ -136,5 +138,9 @@ def fisrt_fist():
     return tmp
 
 
-for i in fisrt_fist():
-    print(i)
+lambdas = fisrt_fist()
+lisa = []
+for i in lambdas:
+    for j in i[1]:
+        lisa.append((j,i[0]))
+tabelas.tabelas(lisa, ["path", "Lambda"])
