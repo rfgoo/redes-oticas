@@ -8,7 +8,7 @@ import tabelas
 
 # cria o dicionário para o dijkstra com base nos caminhos e nas ligações
 
-"""
+
 combs = []
 for x, y in data.t1_adjacency_list.items():
     for z in y:
@@ -27,7 +27,7 @@ for x, y in data.c239_adjacency_list.items():
 edge_weights = dict(zip(combs, data.c239_length))
 
 graph = Graph(data.c239_adjacency_list, edge_weights)
-
+"""
 # encontra os caminhos mais curtos para qq nos (não tem matriz de trafego)
 
 
@@ -74,8 +74,8 @@ def get_paths(adjacency, graf, matrix=False):
     return plh
 
 
-#spf_list = get_paths(data.t1_adjacency_list, graph, data.t1_traffic_matrix)
-spf_list = get_paths(data.c239_adjacency_list, graph)
+spf_list = get_paths(data.t1_adjacency_list, graph, data.t1_traffic_matrix)
+#spf_list = get_paths(data.c239_adjacency_list, graph)
 print(spf_list)
 tabelas.tabelas(spf_list, ["path", "km"])
 tabelas.tabelas(data.t1_traffic_matrix, [i for i in range(1, 7)], [i for i in range(1, 7)])
@@ -91,7 +91,7 @@ def avalia(paths, links, links_rev):
             return 1
     return 0
 
-
+lisa = []
 def fisrt_fist():
     # lista de lambdas: pos0 é o comp de onda, pos 1 é a lista de nós por onde passa, pos 2 é o contador de quantos nos passa
     wave_lens = [[0, [], 0]]
@@ -119,28 +119,28 @@ def fisrt_fist():
                 for link in links_path:
                     wave_lens[x][1].append(link)
                 tmp[x][1].append(i[0])
+                lisa.append((i[0], x))
             else:
                 if len(links_path) > 1:
                     for link in links_path:
                         wave_lens[x][1].append(link)
                     tmp[x][1].append(i[0])
+                    lisa.append((i[0], x))
 
         else:
             if len(links_path) > 1:
                 for link in links_path:
                     wave_lens[x][1].append(link)
                 tmp[x][1].append(i[0])
+                lisa.append((i[0], x))
             else:
 
                 wave_lens[x][1].append(i[0])
                 tmp[x][1].append(i[0])
+                lisa.append((i[0], x))
 
-    return tmp
+    return tmp, tabelas.tabelas(lisa, ["id", "path", "Lambda"])
+
+fisrt_fist()
 
 
-lambdas = fisrt_fist()
-lisa = []
-for i in lambdas:
-    for j in i[1]:
-        lisa.append((j,i[0]))
-tabelas.tabelas(lisa, ["path", "Lambda"])
