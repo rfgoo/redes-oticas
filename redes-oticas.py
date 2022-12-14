@@ -17,8 +17,8 @@ for x, y in data.t1_adjacency_list.items():
 edge_weights = dict(zip(combs, data.t1_length))
 
 graph = Graph(data.t1_adjacency_list, edge_weights)
-
 """
+
 combs = []
 for x, y in data.c239_adjacency_list.items():
     for z in y:
@@ -91,19 +91,31 @@ def avalia(paths, links, links_rev):
             return 1
     return 0
 
-lisa = []
-def fisrt_fist():
+def get_paths(i):
+    lp=[]
+    lpr=[]
+    for j in range(len(i[0]) - 1):
+        lp.append(i[0][j:j + 2])
+        lpr = [b[::-1] for b in lp]
+    return lp, lpr
+
+
+def give_wavelengths(mode="FF"):
+    """
+
+    :param mode: default (can be omitted) FF (first-fit), other MU (most used)
+    """
     # lista de lambdas: pos0 é o comp de onda, pos 1 é a lista de nós por onde passa, pos 2 é o contador de quantos nos passa
     wave_lens = [[0, [], 0]]
     tmp = [[0, []]]
-
+    lisa = []
     for i in spf_list:
         x = 0
-        links_path = []
-        links_path_rev = []
-        for j in range(len(i[0]) - 1):
-            links_path.append(i[0][j:j + 2])
-            links_path_rev = [b[::-1] for b in links_path]
+        links_path, links_path_rev = get_paths(i)
+
+        if mode == "MU":
+            wave_lens.sort(key=lambda var: var[2], reverse=True)
+            #print(wave_lens)
 
         for lamb in wave_lens:
             var = avalia(lamb[1], links_path, links_path_rev)
@@ -118,12 +130,14 @@ def fisrt_fist():
             if len(links_path) > 1:
                 for link in links_path:
                     wave_lens[x][1].append(link)
+                wave_lens[x][2]+=len(i[0])-1
                 tmp[x][1].append(i[0])
                 lisa.append((i[0], x))
             else:
                 if len(links_path) > 1:
                     for link in links_path:
                         wave_lens[x][1].append(link)
+                    wave_lens[x][2]+=len(i[0])-1
                     tmp[x][1].append(i[0])
                     lisa.append((i[0], x))
 
@@ -131,16 +145,19 @@ def fisrt_fist():
             if len(links_path) > 1:
                 for link in links_path:
                     wave_lens[x][1].append(link)
+                wave_lens[x][2]+=len(i[0])-1
                 tmp[x][1].append(i[0])
                 lisa.append((i[0], x))
             else:
 
                 wave_lens[x][1].append(i[0])
+                wave_lens[x][2]+=len(i[0])-1
                 tmp[x][1].append(i[0])
                 lisa.append((i[0], x))
+    tabelas.tabelas(lisa, ["id", "path", "Lambda"])
+    return
 
-    return tmp, tabelas.tabelas(lisa, ["id", "path", "Lambda"])
-
-fisrt_fist()
+give_wavelengths(mode="FF")
+give_wavelengths(mode="MU")
 
 
